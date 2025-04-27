@@ -1,175 +1,147 @@
-# Harry Potter Character RAG Agent
+# Hogwarts Knowledge Vault
 
-A Retrieval-Augmented Generation (RAG) AI system that answers questions in the voice of Harry Potter characters using CrewAI.
+A magical question-answering system powered by CrewAI and Retrieval-Augmented Generation.
 
-## Overview
 
-This project implements a RAG pipeline that:
-1. Processes the Harry Potter and the Sorcerer's Stone PDF
-2. Extracts and indexes text for retrieval
-3. Analyzes character traits and speech patterns
-4. Generates responses in authentic character voices
+## 🧙‍♂️ Overview
 
-## Architecture
+Hogwarts Knowledge Vault is an interactive application that allows users to ask questions about the Harry Potter universe and receive answers in the style of various characters from the series. The system uses advanced AI techniques including:
 
-### RAG Pipeline Design
+- **Retrieval-Augmented Generation (RAG)** to find relevant information from the Harry Potter books
+- **Character-specific response generation** to mimic the speaking style of different wizarding world characters
+- **CrewAI orchestration** to manage a team of specialized AI agents working together
 
-The system uses a multi-agent approach with CrewAI to handle different aspects of the RAG pipeline:
+## ✨ Features
 
-1. **Retrieval Agent**: Finds relevant passages from the book based on the question and character
-2. **Character Analysis Agent**: Analyzes character traits, speech patterns, and behaviors
-3. **Response Generation Agent**: Creates in-character responses using the retrieved context
+- Ask questions about anything in the Harry Potter universe
+- Choose from 10 different characters to answer your questions:
+  - Harry Potter
+  - Hermione Granger
+  - Ron Weasley
+  - Albus Dumbledore
+  - Severus Snape
+  - Draco Malfoy
+  - Luna Lovegood
+  - Rubeus Hagrid
+  - Minerva McGonagall
+  - Sirius Black
+- Beautiful wizarding-themed UI with responsive design
+- Real-time response generation with progress indicators
 
-### PDF Processing
+## 🛠️ Technical Architecture
 
-- The PDF is processed using `pdfplumber` to extract text
-- Text is cleaned to remove headers, footers, and page numbers
-- Content is segmented by chapters and paragraphs for better context retention
+The application uses a multi-agent architecture with CrewAI:
 
-### Vector Store
+1. **Retrieval Agent**: Searches through Harry Potter text using semantic search to find relevant context
+2. **Character Analysis Agent**: Analyzes character speech patterns and personality traits
+3. **Response Generation Agent**: Creates final responses in the style of the selected character
 
-- Uses ChromaDB as the vector database
-- SentenceTransformer embeddings for semantic search
-- Documents are stored with metadata including chapter and paragraph information
+## 📋 Requirements
 
-### Character Analysis
+- Python 3.8+
+- Streamlit
+- CrewAI
+- LangChain (for PDF processing)
+- Other dependencies listed in `requirements.txt`
 
-- Pre-defined base traits for main characters
-- Dynamic character analysis using retrieved passages
-- Identifies speech patterns and typical reactions
+## 🚀 Installation
 
-### Response Generation
-
-- Uses Google's Gemini model for generating responses
-- Responses are crafted based on character traits and relevant book context
-- Includes explanation of how the response aligns with character personality
-
-### Memory System
-
-- Logs interactions to maintain conversation history
-- Stores questions, character selections, and responses
-- Enables character consistency across multiple questions
-
-## Setup Instructions
-
-### Prerequisites
-
-- Python 3.9+
-- Google Gemini API key
-
-### Installation
-
-1. Clone the repository:
-   ```
-   git clone https://github.com/yourusername/harry-potter-rag.git
-   cd harry-potter-rag
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/Kalrakhush/HarryPotter-Rag.git
+   cd HarryPotter-Rag
    ```
 
-2. Install dependencies:
-   ```
+2. Create and activate a virtual environment:
+   ```bash
+   bashpython -m venv venv
+   source venv/bin/activate
+   ```  
+
+3. Install required packages:
+   ```bash
    pip install -r requirements.txt
    ```
 
-3. Set up environment variables:
-   ```
-   export GEMINI_API_KEY="your_gemini_api_key"
-   ```
-   
-   Alternatively, create a `.env` file with:
-   ```
-   GEMINI_API_KEY="your_gemini_api_key"
-   ```
+  ## Set up environment variables:
 
-4. Download the Harry Potter book:
-   - Download [Harry Potter and the Sorcerer's Stone](https://hazidesaratcollege.ac.in/library/uploads/85jkr_harrypotter_1.pdf)
-   - Save it to `data/harry_potter_book.pdf`
+   Create a .env file in the project root
+   Add your API keys:
+   OPENAI_API_KEY=your_openai_api_key
+   # Add any other required API keys
 
-### Running the Application
 
-1. Run in interactive mode:
-   ```
-   python -m src.main
-   ```
 
-2. Run test cases:
-   ```
-   python -m src.main --test
-   ```
+## Download the Harry Potter data:
 
-3. Ask a specific question to a character:
-   ```
-   python -m src.main --question "What would you do if you found a mysterious artifact in Hogwarts?" --character "Hermione Granger"
-   ```
+Place the PDF file containing Harry Potter text in the data directory
+Default path: data/harry_potter.pdf
 
-## Example Outputs
 
-### Test Case 1: Ron Weasley
 
-**Question**: "How would you react to seeing a ghost for the first time?"
+## 🧪 Usage
 
-**Response**:
-```
-Bloody hell! I mean, I've heard about the Hogwarts ghosts from my brothers, but seeing one float through a wall still gives me the creeps! Fred and George kept telling me Nearly Headless Nick would pop out during breakfast and show how his head dangles by a bit of skin. They're not so bad once you get used to them though. Just don't get me started on Peeves - that poltergeist is a nightmare! He's not even a proper ghost, just likes causing trouble. At least the Bloody Baron can keep him in line.
+Start the Streamlit application:
+```bash
+streamlit run app.py
 ```
 
-**Explanation**:
-This response captures Ron's informal speech patterns with expressions like "Bloody hell!" and references to his brothers' stories. I emphasized Ron's tendency to be easily startled yet quick to adapt, while incorporating his knowledge of wizarding world elements that would be familiar to him as someone from a wizarding family. His mention of Peeves reflects his practical concerns about troublemakers.
+Open your browser and navigate to http://localhost:8501
+Select a character from the dropdown menu
+Type your question about the Harry Potter universe in the input field
+Click "🪄 Ask" and wait for the magical response!
 
-### Test Case 2: Harry Potter
-
-**Question**: "What would you say to someone bullying a friend?"
-
-**Response**:
-```
-Leave them alone! What's the matter with you? I don't care who your father is or what house you're in - you don't get to treat people like that. My friend hasn't done anything wrong to you. 
-
-I know what it's like when no one stands up for you. Before Hogwarts, my cousin Dudley and his gang bullied me for years, and nobody ever stepped in. I'm not letting that happen to my friends.
-```
-
-**Explanation**:
-The response reflects Harry's straightforward defense of others and his strong sense of justice, drawing on his experiences with Dudley's bullying. I focused on Harry's courage to stand up against intimidation regardless of consequences, which is consistent with scenes where he confronts Malfoy. His personal connection to being bullied adds emotional depth characteristic of his empathetic nature.
-
-### Test Case 3: Draco Malfoy
-
-**Question**: "What's your plan to win a Quidditch match?"
-
-**Response**:
-```
-Win a Quidditch match? Well, unlike Potter who gets by on sheer dumb luck, I actually have skill and strategy. Father bought the entire Slytherin team Nimbus 2001s - the fastest brooms gold can buy. Superior equipment for superior players, naturally.
-
-The Slytherin way is to use every advantage. We play aggressive - intimidate the other team, especially their Seeker. If they're scared, they make mistakes. My father says winning isn't about playing fair, it's about ensuring victory by any means necessary. When I spot the Snitch, I won't hesitate like some Gryffindors might.
-```
-
-**Explanation**:
-This response captures Draco's arrogant personality with his dismissive attitude toward Harry, emphasis on wealth and connections, and Slytherin's win-at-all-costs mentality. I incorporated his frequent references to his father and material advantages (like brooms) that feature prominently in his character. His speech pattern includes the condescending tone he typically uses when discussing other houses.
-
-## Project Structure
-
-```
-harry_potter_rag/
+## 📁 Project Structure
+HarryPotter-Rag/
+├── app.py                        # Main Streamlit application
+├── README.md                     # This file
+├── requirements.txt              # Python dependencies
+├── .env                          # Environment variables (create this)
+├── .gitignore                    # Git ignore file
 ├── data/
-│   └── harry_potter_book.pdf
-├── db/
-│   └── vector_store/
-├── logs/
-│   └── agent_memory.log
-├── src/
-│   ├── __init__.py
-│   ├── config.py
-│   ├── pdf_processor.py
-│   ├── vector_store.py
-│   ├── agents.py
-│   ├── tools.py
-│   ├── memory.py
-│   └── main.py
-├── requirements.txt
-└── README.md
-```
+│   ├── harry_potter.pdf          # PDF containing Harry Potter text
+│   └── faiss_index/              # Vector store indices
+└── src/
+    ├── __init__.py               # Package initialization
+    ├── agents/
+    │   ├── __init__.py
+    │   ├── __pycache__/
+    │   ├── config/               # Configuration files
+    │   ├── harry_potter_crew.py  # CrewAI implementation
+    │   └── faiss_index/          # Agent-specific indices
+    ├── utils/
+    │   ├── __init__.py
+    │   ├── __pycache__/
+    │   ├── config.py             # Configuration utilities
+    │   ├── llm_service.py        # LLM service wrapper
+    │   ├── pdf_processor.py      # PDF processing utilities
+    │   └── tools.py              # Custom tools including PDFVectorSearchTool
+    └── test/                     # Test files
 
-## Future Improvements
+## ⚙️ Configuration
+The behavior of agents and tasks can be customized by modifying the YAML configuration files:
 
-- Fine-tune a language model specifically for Harry Potter characters
-- Add support for multiple books for broader character knowledge
-- Implement a web interface for easier interaction
-- Expand memory system to better track conversation history
-- Add emotion detection to respond appropriately to user sentiment
+src/agents/config/agents.yaml: Define agent personalities, capabilities, and goals
+src/agents/config/tasks.yaml: Define tasks for each agent to perform
+
+🧠 How It Works
+
+When a user submits a question:
+
+The Retrieval Agent searches the Harry Potter corpus for relevant context
+The Character Analysis Agent determines how the chosen character would respond
+The Response Generation Agent creates the final answer in character
+
+
+The entire process is orchestrated by CrewAI, which manages the sequential workflow
+
+## 🤝 Contributing
+Contributions are welcome! Please feel free to submit a Pull Request to the GitHub repository.
+📄 License
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🔮 Acknowledgments
+
+J.K. Rowling for creating the magical world of Harry Potter
+The CrewAI team for the multi-agent framework
+All contributors to this project
