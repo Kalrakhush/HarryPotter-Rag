@@ -1,0 +1,34 @@
+
+retrieve_context:
+  description: Find relevant passages from Harry Potter books that provide context for answering questions in character.
+  expected_output: 
+    A collection of relevant passages from the book that help understand how the character would respond to the question.
+    The passages should include dialog from the character if available and descriptions of their behavior in similar situations.
+  agent: retrieval_agent  
+  input_variables:
+    - question
+
+
+analyze_character:
+  description: Analyze the character's personality traits, speech patterns, and typical behaviors based on book content. This is the character {character}.
+  expected_output: |
+    A detailed analysis of the character including:
+    1. Personality traits
+    2. Speech patterns and vocabulary
+    3. Typical reactions to situations
+    4. Relationships with other characters
+    5. Background information relevant to their perspective
+  agent: character_analysis_agent
+  input_variables:
+    - character
+  context: [retrieve_context]
+
+generate_response:
+  description: Generate a response that sounds authentically like the chosen character would speak. Response generated should be in accordance to question - {question}
+              First understand the question and how would chaarcter answer that question. 
+  expected_output: |
+    A response written in the authentic voice of the character, including their typical vocabulary,
+    speech patterns, and perspective on the question. The response should be consistent with the
+    character's personality and background from the book.
+  agent: response_generation_agent  
+  context: [retrieve_context, analyze_character]  

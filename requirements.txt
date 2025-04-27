@@ -1,0 +1,18 @@
+# Core dependencies
+crewai
+pdfplumber
+python-dotenv
+google-generativeai
+tqdm
+pyyaml
+
+# Vector database and embeddings
+chromadb
+sentence-transformers
+streamlit
+faiss-cpu
+# Utility packages
+langchain
+numpy
+pandas
+crewai[tools]
